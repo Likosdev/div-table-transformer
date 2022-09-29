@@ -9,11 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "beautify": "^0.0.8",
+    "bootstrap": "^5.2.1",
     "next": "12.3.1",
     "react": "18.2.0",
+    "react-bootstrap": "^2.5.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/beautify": "^0.0.0",
     "@types/node": "18.7.23",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
