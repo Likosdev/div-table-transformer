@@ -47,8 +47,14 @@ const ConversionForm = (props: IMyProps) => {
     setFormInput(event.target.value);
   }
 
-  const adjustColRatioSmart = (html: String) => {
-    return html
+  const adjustColRatioSmart = (html: string) => {
+    let {...ratio} = countColumns(html);
+    var template = htmlToElement(html);
+    var columns = template.querySelectorAll('.ratioColumn');
+    columns.forEach(col => {
+      col.classList.add(`col-md-${ratio.ratio}`)
+    });
+    return template.innerHTML
   }
 
   /**
@@ -73,6 +79,13 @@ const ConversionForm = (props: IMyProps) => {
     return htmlToElement(html).querySelectorAll('table').length >= 1;
   }
 
+  const countColumns = (html : string ) => {
+    var template = htmlToElement(html);
+    var columns = template.querySelectorAll('.ratioColumn').length
+    var ratio = 12 / columns
+    return ({columns, ratio})
+  }
+
   /**
    * 
    * @param html string of html with columns to be converted
@@ -84,12 +97,6 @@ const ConversionForm = (props: IMyProps) => {
 
     columns[0].classList.add(`col-md-${selectedColOption.firstCol}`)
     columns[1].classList.add(`col-md-${selectedColOption.secondCol}`)
-
-
-
-    console.log(template);
-
-
     return template.innerHTML;
   }
 
@@ -118,15 +125,13 @@ const ConversionForm = (props: IMyProps) => {
    */
   const handleConversion = (event: React.MouseEvent<HTMLButtonElement> | null) => {
     event?.preventDefault();
-    console.log("Handling conversion");
-    console.log("Testing for HTML table in input");
+    
     if (htmlIsTable(formInput)) {
-      console.log("Html is a table indeed");
-      console.log("beginning conversion")
+    
       var converted = convert();
       if (smartDetectionOption == "on") {
         const smartHtmlWithColRatio = adjustColRatioSmart(converted);
-        setFormOutput(smartHtmlWithColRatio.toString());
+        setFormOutput(smartHtmlWithColRatio);
       }
       else {
         const htmlWithColRatio = adjustColRatio(converted)
@@ -134,8 +139,7 @@ const ConversionForm = (props: IMyProps) => {
       }
 
     } else {
-      console.log("html does not seem to be a table");
-
+      alert("your pasted html does not seem to be have a table on its root level")
     }
   }
 
@@ -171,7 +175,7 @@ const ConversionForm = (props: IMyProps) => {
       return () => window.removeEventListener("resize", handleResize);
     }
   , []); // Empty array ensures that effect is only run on mount
-  //col-lg-12 text-center options-area
+  
   return (
     <div className="container">
       {props.children}
@@ -195,8 +199,6 @@ const ConversionForm = (props: IMyProps) => {
           </select><br />
           <label htmlFor="smartDetectionCheckBox">Try to detect column ratio?   </label> <br />
           <input type="checkbox" name="smartDetectionCheckBox" id="smartDetectionCheckBox" onChange={e => {
-            console.log(e.target.value);
-
             setSmartDetectionOption(smartDetectionOption == "on" ? "off" : "on")
           }} /><br />
         </div>
