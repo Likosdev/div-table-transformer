@@ -94,7 +94,7 @@ const ConversionForm = (props: IMyProps) => {
   function adjustColRatio(html: string) {
     var template = htmlToElement(html);
     var columns = template.querySelectorAll('.ratioColumn');
-
+    if (columns.length<2){ return template.innerHTML}
     columns[0].classList.add(`col-md-${selectedColOption.firstCol}`)
     columns[1].classList.add(`col-md-${selectedColOption.secondCol}`)
     return template.innerHTML;
@@ -105,7 +105,21 @@ const ConversionForm = (props: IMyProps) => {
    * @returns a bootstrap grid converted from input html
    */
   const convert = () => {
+    var temp = formInput.replace(/<table\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div>');
+    temp = temp.replace(/<\/table>/g, '</div>');
+  
+    temp = temp.replace(/<tbody\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div class="container">');
+    temp = temp.replace(/<\/tbody>/g, '</div>');
+  
+    temp = temp.replace(/<tr\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div class="row">');
+    temp = temp.replace(/<\/tr>/g, '</div>');
+  
+    temp = temp.replace(/<td\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div class="ratioColumn">');
+    temp = temp.replace(/<\/td>/g, '</div>');
+  
+    return beautify(temp, { format: 'html' })
     // todo - Maybe dom manipulation would be less volatile
+    /*
     var temp = formInput.replace(/<table.+?>/g, '<div>').replace(/<\/table>/g, '</div>');
 
     temp = temp.replace(/<tbody.?>/g, '<div class="container">').replace(/<\/tbody>/g, '</div>');
@@ -115,6 +129,7 @@ const ConversionForm = (props: IMyProps) => {
     temp = temp.replace(/<td.?>/g, '<div class="ratioColumn">').replace(/<\/td>/g, '</div>');
 
     return beautify(temp, { format: 'html' })
+    */
   }
 
   /**
