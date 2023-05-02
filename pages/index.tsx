@@ -1,7 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import ConversionForm from "../components/ConversionForm";
-import ScreenSize from '../components/ScreenSize';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
