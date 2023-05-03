@@ -23,7 +23,8 @@ const ConversionForm = (props: IMyProps) => {
   const [colOptions] = useState(
     [
       { option: '1:1', firstCol: 6, secondCol: 6 },
-      { option: '2:1', firstCol: 8, secondCol: 4 }
+      { option: '2:1', firstCol: 8, secondCol: 4 },
+      { option: '9:3', firstCol: 9, secondCol: 3 },
     ]
   );
   const [smartDetectionOption, setSmartDetectionOption] = useState("off")
