@@ -98,6 +98,10 @@ const ConversionForm = (props: IMyProps) => {
     if (columns.length<2){ return template.innerHTML}
     columns[0].classList.add(`col-md-${selectedColOption.firstCol}`)
     columns[1].classList.add(`col-md-${selectedColOption.secondCol}`)
+    if (columns.length>2){
+      columns[2].classList.add(`col-md-${selectedColOption.firstCol}`)
+      columns[3].classList.add(`col-md-${selectedColOption.secondCol}`)
+    }
     return template.innerHTML;
   }
 
@@ -108,16 +112,19 @@ const ConversionForm = (props: IMyProps) => {
   const convert = () => {
     var temp = formInput.replace(/<table\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div>');
     temp = temp.replace(/<\/table>/g, '</div>');
-  
+
     temp = temp.replace(/<tbody\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div class="container">');
     temp = temp.replace(/<\/tbody>/g, '</div>');
-  
+
     temp = temp.replace(/<tr\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div class="row">');
     temp = temp.replace(/<\/tr>/g, '</div>');
-  
+
     temp = temp.replace(/<td\b(?!.*?\bclass\b)(?!.*?\bid\b).*?>/g, '<div class="ratioColumn">');
     temp = temp.replace(/<\/td>/g, '</div>');
-  
+
+    // Add the class "ratioColumn" to the "div" elements created from "td" elements
+    temp = temp.replace(/<div\b(?!.*?\bclass\b)(?=.*?\bratioColumn\b)(?!.*?\bid\b).*?>/g, '<div class="ratioColumn">');
+
     return beautify(temp, { format: 'html' })
     // todo - Maybe dom manipulation would be less volatile
     /*
@@ -231,7 +238,6 @@ const ConversionForm = (props: IMyProps) => {
           <textarea id="htmlOutput" name="htmlOutput" readOnly rows={15} cols={windowSize.width <= 500? 35 : 65} className="code" value={formOutput}></textarea>
           <br />
           <button onClick={copyFormOutput}>Copy all</button>
-
         </div>
       </div>
       <hr />
