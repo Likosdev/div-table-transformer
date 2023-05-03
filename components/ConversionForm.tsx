@@ -98,10 +98,9 @@ const ConversionForm = (props: IMyProps) => {
     if (columns.length<2){ return template.innerHTML}
     columns[0].classList.add(`col-md-${selectedColOption.firstCol}`)
     columns[1].classList.add(`col-md-${selectedColOption.secondCol}`)
-    if (columns.length>2){
-      columns[2].classList.add(`col-md-${selectedColOption.firstCol}`)
-      columns[3].classList.add(`col-md-${selectedColOption.secondCol}`)
-    }
+    if (columns.length>2){columns[2].classList.add(`col-md-${selectedColOption.firstCol}`)}
+    if (columns.length>3){columns[3].classList.add(`col-md-${selectedColOption.secondCol}`)}
+    
     return template.innerHTML;
   }
 
